@@ -2,7 +2,9 @@
 
 A practical guide to interacting with the **Neurobro API** using the **x402 protocol** for seamless, on-chain payments.
 
----
+![Neurobro Logo][neurobro-img]
+
+[neurobro-img]: ./assets/neurobro.png
 
 ## Overview
 
@@ -17,7 +19,7 @@ With x402, each request **automatically handles the payment**—no registration,
 
 ---
 
-## 🔍 What is x402?
+## What is x402?
 
 **x402** is an open payment protocol designed for APIs. It allows users to **pay per request** using crypto (e.g., USDC on Base) with:
 
@@ -67,7 +69,7 @@ WALLET_PRIVATE_KEY=0x_your_private_key_here
 
 ---
 
-### ▶️ Run Example Scripts
+## Run Example Scripts
 
 ```bash
 # Axios client example
@@ -86,7 +88,7 @@ Each script will:
 
 ---
 
-## 📡 Available Paid Endpoints
+## Available Paid Endpoints
 
 | Endpoint                                | Description                        | Price       |
 | --------------------------------------- | ---------------------------------- | ----------- |
@@ -121,7 +123,7 @@ All payment operations are transparent onchain to the user.
 
 ## 🛠 Troubleshooting
 
-### Module not found
+#### 1. Module not found
 
 * Ensure you are in the repo root
 * Reinstall deps:
@@ -130,11 +132,11 @@ All payment operations are transparent onchain to the user.
 pnpm install
 ```
 
-### Missing `WALLET_PRIVATE_KEY`
+#### 2. Missing `WALLET_PRIVATE_KEY`
 
 * Ensure `.env` exists and the key is valid
 
-### Payment fails
+#### 3. Payment fails
 
 * Check your wallet balance (USDC on **Base mainnet**)
 * Confirm your private key matches the wallet holding USDC
@@ -143,7 +145,7 @@ pnpm install
 
 ## Security Best Practices
 
-* Do **not** commit `.env` or private keys
+* **NEVER** commit `.env` or private keys
 * Prefer a **dedicated wallet** for testing
 * Rotate API usage keys regularly if needed
 
