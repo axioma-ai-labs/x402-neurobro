@@ -1,0 +1,28 @@
+{
+  "name": "x402-neurobro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axioma-ai-labs/x402-neurobro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/axioma-ai-labs/x402-neurobro/issues"
+  },
+  "homepage": "https://github.com/axioma-ai-labs/x402-neurobro#readme",
+  "dependencies": {
+    "axios": "^1.13.0",
+    "dotenv": "^16.4.5",
+    "viem": "^2.38.5",
+    "x402-axios": "^0.7.0",
+    "x402-fetch": "^0.7.0"
+  }
+}
