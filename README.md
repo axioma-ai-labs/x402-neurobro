@@ -1,6 +1,6 @@
-# Neurobro x402 API Cookbook
+# Neurobro x402 Cookbook
 
-A practical guide to interacting with the **Neurobro API** using the **x402 protocol** for seamless, on-chain payments.
+Python examples for the **Neurobro API** with **x402** micropayments.
 
 ![Neurobro Logo][neurobro-img]
 
@@ -8,155 +8,82 @@ A practical guide to interacting with the **Neurobro API** using the **x402 prot
 
 ## Overview
 
-This repository includes **fully working examples** that show how to call Neurobro’s paid API endpoints using x402.  
-The Neurobro API provides real-time financial analytics such as:
+Working Python examples for calling the Neurobro x402 API. AI-powered crypto analysis with automatic USDC payments via the x402 protocol.
 
-- Bull market indicators
-- Macro & global liquidity signals
-- Institutional transfer monitoring
-
-With x402, each request **automatically handles the payment**—no registration, OAuth, or complicated wallet flows required.
-
----
+**Production API:** https://x402.neurobro.ai
 
 ## What is x402?
 
-**x402** is an open payment protocol designed for APIs. It allows users to **pay per request** using crypto (e.g., USDC on Base) with:
+[x402](https://x402.org) is an open payment protocol:
 
-✅ No account creation  
-✅ No API keys  
-✅ No cookies or sessions  
-✅ No signature pop-ups
+- No accounts or API keys
+- Pay-per-request with USDC
+- Automatic payment handling
 
-Just a simple **HTTP request → Payment → Response** workflow.
-
-➡️ Learn more here: [x402 docs](https://x402.org)
-
----
+Flow: `Request → 402 Payment Required → Pay → Response`
 
 ## Quick Start
 
-### ✅ Prerequisites
-
-Before running the examples, you will need:
-
-- **Node.js** installed
-- A wallet funded with **USDC on Base mainnet**
-- Your **Ethereum private key** (used to sign payments locally)
-
----
-
-### Install Dependencies
-
 ```bash
-pnpm install
-```
+cd examples
+pip install -r requirements.txt
 
-### Environment Setup
-
-```bash
 cp .env.example .env
+# Edit .env: WALLET_PRIVATE_KEY=0x...
 ```
-
-Edit the `.env` file and add your private key:
-
-```env
-WALLET_PRIVATE_KEY=0x_your_private_key_here
-```
-
-> **Security Note:** Never share your private key or commit your `.env` file.
-> It is already excluded in `.gitignore` for safety.
-
----
-
-## Run Example Scripts
 
 ```bash
-# Axios client example
-node examples/axios-example.js
+# Health check (free)
+python 01_health_check.py
 
-# Fetch client example
-node examples/fetch-example.js
+# Query (paid)
+python 03_cli_query.py "What is Bitcoin?"
 ```
 
-Each script will:
+## Use as Library
 
-✅ Detect payment requirements
-✅ Approve and sign the payment via x402
-✅ Retry the request automatically
-✅ Return valid response data
+```python
+from neurobro_client import NeurobroClient
 
----
+client = NeurobroClient()
 
-## Available Paid Endpoints
+# Free
+status = client.health()
+print(status.is_healthy)
 
-| Endpoint                                | Description                        | Price       |
-| --------------------------------------- | ---------------------------------- | ----------- |
-| `/api/v1/public/bull-market-indicators` | Global bull market signal analysis | $1.00 USDC  |
-| `/api/v1/public/macro-indicators`       | Macro & liquidity trackers         | $1.00 USDC  |
-| `/api/v1/public/transfers`              | Institutional flows monitoring     | $1.00 USDC  |
-| `/api/v1/public/health`                 | Status check                       | $0.001 USDC |
-
-See full spec here:
-➡️ [`x402-neurobro-endpoints.yaml`](./x402-neurobro-endpoints.yaml)
-
-**Note**: We're currently preparing the release of 100+ more proprietary endpoints to Neurobro x402 API!
-
----
-
-## 🧠 How x402 Payments Work?
-
-Behind the scenes:
-
-1. Your script sends a request to a Neurobro x402 API endpoint
-2. Server returns `402 Payment Required` (if needed)
-3. The x402 client library:
-   * Reads payment metadata from headers
-   * Creates a payment authorization
-   * Signs the order with your wallet
-   * Resends the request with proof of payment
-4. You get the final API response ✅
-
-All payment operations are transparent onchain to the user.
-
----
-
-## 🛠 Troubleshooting
-
-#### 1. Module not found
-
-* Ensure you are in the repo root
-* Reinstall deps:
-
-```bash
-pnpm install
+# Paid
+result = client.query("Analyze ETH price action")
+print(result.text)
 ```
 
-#### 2. Missing `WALLET_PRIVATE_KEY`
+## Examples
 
-* Ensure `.env` exists and the key is valid
+| File | Description |
+|------|-------------|
+| `01_health_check.py` | Check API status (free) |
+| `02_simple_query.py` | Basic paid query |
+| `03_cli_query.py` | CLI one-liner |
+| `04_async_usage.py` | Async workflow |
+| `05_error_handling.py` | Error handling patterns |
+| `06_batch_queries.py` | Multiple queries |
+| `07_custom_config.py` | Custom configuration |
+| `08_retry_logic.py` | Retry with backoff |
 
-#### 3. Payment fails
+See [`examples/README.md`](./examples/README.md) for details.
 
-* Check your wallet balance (USDC on **Base mainnet**)
-* Confirm your private key matches the wallet holding USDC
+## API
 
----
+| Endpoint | Method | Cost |
+|----------|--------|------|
+| `/api/v1/health` | GET | Free |
+| `/api/v1/query` | POST | USDC |
 
-## Security Best Practices
+## Links
 
-* **NEVER** commit `.env` or private keys
-* Prefer a **dedicated wallet** for testing
-* Rotate API usage keys regularly if needed
+- [x402 Protocol](https://x402.org)
+- [x402 Python Package](https://pypi.org/project/x402/)
+- [Coinbase x402 Docs](https://docs.cdp.coinbase.com/x402/quickstart-for-buyers)
 
----
+## License
 
-## 📚 Useful Links
-
-* x402 Official Docs: [https://x402.org](https://x402.org)
-* Quickstart for Buyers: [https://x402.gitbook.io/x402/getting-started/quickstart-for-buyers](https://x402.gitbook.io/x402/getting-started/quickstart-for-buyers)
-* Coinbase Buyer Guide: [https://docs.cdp.coinbase.com/x402/quickstart-for-buyers](https://docs.cdp.coinbase.com/x402/quickstart-for-buyers)
-* npm packages:
-
-  * [https://www.npmjs.com/package/x402-fetch](https://www.npmjs.com/package/x402-fetch)
-  * [https://www.npmjs.com/package/x402-axios](https://www.npmjs.com/package/x402-axios)
+MIT
