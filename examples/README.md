@@ -1,148 +1,123 @@
-# Neurobro x402 API Examples
+# Neurobro x402 Examples
 
-Python examples for interacting with the Neurobro x402 API.
+Python examples for the Neurobro x402 API.
 
-## Prerequisites
-
-1. **Python 3.10+**
-2. **USDC on Base mainnet** in your wallet
-3. **Private key** for signing payments
-
-## Installation
+## Setup
 
 ```bash
-pip install x402 httpx eth-account python-dotenv
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure wallet
+cp .env.example .env
+# Edit .env and add your private key
 ```
 
-## Configuration
-
-Create a `.env` file in this directory:
-
-```env
-WALLET_PRIVATE_KEY=0x_your_private_key_here
-```
-
-**Security:** Never commit your `.env` file or share your private key.
+**Requirements:**
+- Python 3.10+
+- USDC on Base mainnet (for paid queries)
 
 ## Examples
 
-### Health Check (Free)
+| File | Description | Payment |
+|------|-------------|---------|
+| `01_health_check.py` | Check if API is online | Free |
+| `02_simple_query.py` | Send a basic query | USDC |
+| `03_cli_query.py` | CLI one-liner queries | USDC |
+| `04_async_usage.py` | Full async workflow | USDC |
 
-Check if the API is online. No wallet required.
-
-```bash
-python health_check.py
-```
-
-### Basic Usage
-
-Full example showing health check and paid query:
+### Run Examples
 
 ```bash
-python basic_usage.py
+# Health check (free, no wallet needed)
+python 01_health_check.py
+
+# Simple query
+python 02_simple_query.py
+
+# CLI query
+python 03_cli_query.py "What is Ethereum?"
+
+# Async example
+python 04_async_usage.py
 ```
 
-### Quick Query
-
-One-liner for quick questions:
-
-```bash
-python quick_query.py "What is the current sentiment on Ethereum?"
-```
-
-### Using the Client Library
+## Using the Client
 
 ```python
-from client import NeurobroClient
+from neurobro_client import NeurobroClient
 
-# Initialize with private key
-client = NeurobroClient(private_key="0x...")
+# Initialize (reads WALLET_PRIVATE_KEY from .env)
+client = NeurobroClient()
 
-# Or use environment variable
-client = NeurobroClient()  # reads WALLET_PRIVATE_KEY
+# Health check (free)
+status = client.health()
+print(status.is_healthy)
 
-# Check health (free)
-health = client.health()
-print(health.status)
-
-# Send a query (paid with USDC)
-result = client.query("Analyze Bitcoin's price action this week")
-print(result.response)
+# Query (paid)
+result = client.query("Analyze BTC sentiment")
+print(result.text)
 ```
 
 ### Async Usage
 
 ```python
 import asyncio
-from client import NeurobroClient
+from neurobro_client import NeurobroClient
 
 async def main():
     client = NeurobroClient()
-
-    # Async methods
-    health = await client.health_async()
-    result = await client.query_async("What are the top DeFi protocols?")
-    print(result.response)
+    result = await client.query_async("What are top DeFi protocols?")
+    print(result.text)
 
 asyncio.run(main())
+```
+
+### Quick One-Liner
+
+```python
+import asyncio
+from neurobro_client import quick_query
+
+response = asyncio.run(quick_query("What is Bitcoin?"))
+print(response)
 ```
 
 ## API Reference
 
 ### Endpoints
 
-| Endpoint | Method | Description | Cost |
-|----------|--------|-------------|------|
-| `/api/v1/health` | GET | Health check | Free |
-| `/api/v1/query` | POST | AI query | USDC per query |
+| Endpoint | Method | Cost |
+|----------|--------|------|
+| `/api/v1/health` | GET | Free |
+| `/api/v1/query` | POST | USDC |
 
-### Query Request
+### Request
 
 ```json
 {
-  "prompt": "Your crypto analysis question",
-  "client_id": "optional-tracking-id"
+  "prompt": "Your question",
+  "client_id": "optional-id"
 }
 ```
 
-### Query Response
+### Response
 
 ```json
 {
-  "response": "AI-generated analysis...",
+  "response": "AI answer...",
   "model": "grok-4",
   "request_id": "uuid"
 }
 ```
 
-## How x402 Payments Work
-
-1. Your request hits the `/api/v1/query` endpoint
-2. Server returns `402 Payment Required` with payment details
-3. The x402 library automatically:
-   - Reads payment requirements from headers
-   - Signs a USDC payment authorization
-   - Retries the request with payment proof
-4. Server verifies payment and returns the AI response
-
-All payments are in USDC on Base mainnet. The x402 library handles everything automatically.
-
 ## Troubleshooting
 
-### "Private key required"
+**"Private key required"**
+- Set `WALLET_PRIVATE_KEY` in `.env`
 
-Set `WALLET_PRIVATE_KEY` in your `.env` file or pass it directly to `NeurobroClient()`.
+**Payment fails**
+- Ensure wallet has USDC on Base mainnet (not testnet)
 
-### "Insufficient USDC balance"
-
-Ensure your wallet has USDC on **Base mainnet** (not testnet, not other chains).
-
-### Connection errors
-
-Check if the API is online using `health_check.py` first.
-
-## Links
-
-- [x402 Protocol Documentation](https://x402.org)
-- [Coinbase x402 Guide](https://docs.cdp.coinbase.com/x402/quickstart-for-buyers)
-- [x402 Python Package](https://pypi.org/project/x402/)
+**Connection error**
+- Run `01_health_check.py` to verify API is online
