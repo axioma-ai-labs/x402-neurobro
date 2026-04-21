@@ -17,6 +17,16 @@ intelligence with automatic USDC micropayments.
 
 ---
 
+## Coming soon: NeuroAPI
+
+The full **NeuroAPI** — Neurobro's complete agentic crypto intelligence
+platform — is launching soon. This cookbook is the x402 on-ramp you can
+build against today. Email
+[support@neurobro.ai](mailto:support@neurobro.ai) for early access or
+release updates.
+
+---
+
 ## TL;DR
 
 ```bash
