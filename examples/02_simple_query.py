@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-Simple Query — the smallest working paid integration.
+Simple query — the smallest working paid integration.
 
-Sends one question, pays $1 USDC via x402, prints the answer.
+Asks one question, pays $1 USDC, prints the answer.
 
-Prereqs:
-    WALLET_PRIVATE_KEY in .env, wallet funded with USDC on Base mainnet.
+Requires WALLET_PRIVATE_KEY in .env and USDC on Base mainnet.
 
 Usage:
     python 02_simple_query.py
@@ -31,7 +30,6 @@ def main() -> None:
     print(f"Query: {prompt}\n")
 
     try:
-        # First call returns 402; the client signs a USDC payment and retries.
         result = client.query(prompt)
         print(f"Model: {result.model}")
         print(f"Request ID: {result.request_id}")
@@ -47,10 +45,9 @@ if __name__ == "__main__":
     main()
 
 
-# ---------------------------------------------------------------------------
-# Sample output (illustrative — real responses will vary)
-# ---------------------------------------------------------------------------
-# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# Example output:
+#
+# Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
 # --------------------------------------------------
 # Query: What is Bitcoin? Give a brief explanation.
 #

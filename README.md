@@ -8,8 +8,8 @@ intelligence with automatic USDC micropayments.
 [neurobro-img]: ./assets/neurobro.png
 
 > **No API keys. No signup. No subscription.**
-> Just point a wallet at `https://x402.neurobro.ai`, pay $1 USDC per call,
-> get a crypto-aware answer back. Built for Python devs shipping AI agents,
+> Point a wallet at `https://x402.neurobro.ai`, pay $1 USDC per call, get
+> a crypto-aware answer back. Built for Python devs shipping AI agents,
 > trading firms, hedge funds, quants, and anyone who wants an on-demand
 > crypto research endpoint.
 
@@ -34,18 +34,18 @@ python examples/01_health_check.py
 python examples/03_cli_query.py "What is Ethereum?"
 ```
 
-That's it. If step 4 prints an answer, you're done.
+If step 4 prints an answer, you're done.
 
 ---
 
 ## What you get
 
-- **On-demand crypto analysis** — markets, tokens, sentiment, onchain context —
-  behind a single `POST /api/v1/query`.
+- **On-demand crypto analysis** — markets, tokens, sentiment, onchain
+  context — behind a single `POST /api/v1/query`.
 - **Wallet-native auth** — no accounts to provision, no keys to rotate.
-  Your wallet signing *is* the authentication.
+  Your wallet *is* the authentication.
 - **Drop-in Python client** — sync, async, batch, and retry helpers with
-  type-safe responses.
+  typed responses.
 
 ---
 
@@ -62,8 +62,8 @@ for an API key, you pay per request with USDC.
      ▲                                              │
      │ ◄──── 402 Payment Required (details) ────────┘
      │
-     │  Client wallet signs a USDC transfer (no gas required,
-     │  settled on Base via an x402 facilitator)
+     │  Client wallet signs a USDC transfer,
+     │  settled on Base via an x402 facilitator
      ▼
 ┌─────────┐  POST /api/v1/query + X-PAYMENT  ┌────────────────┐
 │ Client  │ ───────────────────────────────► │ Neurobro x402  │
@@ -78,9 +78,9 @@ for an API key, you pay per request with USDC.
 4. Client retries with an `X-PAYMENT` header.
 5. Server verifies the payment on Base, runs the query, returns the answer.
 
-Our Python client (`neurobro_client.py`) hides steps 1–4 — you just call
-`client.query(...)`. If you want to build your own integration, the full
-protocol spec lives at [x402.org](https://x402.org).
+The Python client hides steps 1–4 — you just call `client.query(...)`.
+If you want to build your own integration, the full spec lives at
+[x402.org](https://x402.org).
 
 ---
 
@@ -93,16 +93,16 @@ Flat rate. No tiers. No minimums.
 | `/api/v1/health` | `GET` | Free |
 | `/api/v1/query` | `POST` | **$1 USDC** per request, on Base mainnet |
 
-You pay **only for successful calls**. Failed payments and errored requests
-don't draw from your wallet.
+You pay **only for successful calls**. Failed payments and errored
+requests don't draw from your wallet.
 
 ---
 
 ## Prerequisites
 
 - **Python 3.10+**
-- **An EVM wallet** with its private key accessible — a dedicated hot wallet
-  is recommended (don't reuse a treasury key).
+- **An EVM wallet** with its private key accessible — a dedicated hot
+  wallet is recommended (don't reuse a treasury key).
 - **USDC on Base mainnet** — any amount above $1 is enough to start.
 
 New to this? See [Get started in 5 minutes](#get-started-in-5-minutes) below.
@@ -123,9 +123,9 @@ pip install -r examples/requirements.txt
 
 Any EVM wallet works. Two common paths:
 
-- **Existing wallet** — export the private key from MetaMask, Rabby, or any
-  EVM wallet. Do this from a **burner / hot wallet** you use just for
-  agents, not your main holdings.
+- **Existing wallet** — export the private key from MetaMask, Rabby, or
+  any EVM wallet. Use a burner / hot wallet you reserve for agents —
+  not your main holdings.
 - **New wallet** — generate one in Python:
 
   ```python
@@ -142,8 +142,8 @@ Any EVM wallet works. Two common paths:
 You need USDC (not ETH) on Base mainnet. Any of:
 
 - Bridge from Ethereum mainnet via the [Base Bridge](https://bridge.base.org/).
-- Buy USDC on a Base-supported exchange (Coinbase supports direct Base
-  withdrawals) and send to your wallet.
+- Buy USDC on a Base-supported exchange (Coinbase supports direct
+  Base withdrawals) and send to your wallet.
 - Swap into USDC on-Base with any Base DEX.
 
 Around **$2–$5 USDC** is plenty to try a handful of queries. The USDC
@@ -166,7 +166,7 @@ python examples/01_health_check.py
 python examples/03_cli_query.py "What is Ethereum?"
 ```
 
-If the paid call prints a response, you're integrated. 🎉
+If the paid call prints a response, you're integrated.
 
 ---
 
@@ -215,8 +215,8 @@ answer = asyncio.run(quick_query("What is a rollup?"))
 
 ## Examples
 
-Every file ships with a **Sample output** block so you know what to expect
-before running it.
+Every file ends with an **example output** block so you see what to
+expect before running it.
 
 | File | Purpose | Paid? | Best for |
 |------|---------|-------|----------|
@@ -224,28 +224,28 @@ before running it.
 | [`02_simple_query.py`](./examples/02_simple_query.py) | Smallest working paid integration | Paid | Minimal reference |
 | [`03_cli_query.py`](./examples/03_cli_query.py) | Ask anything from the terminal | Paid | Quick manual checks |
 | [`04_async_usage.py`](./examples/04_async_usage.py) | Full async workflow | Paid | Agents, FastAPI, event loops |
-| [`05_error_handling.py`](./examples/05_error_handling.py) | Handle every failure mode | Mixed | Production-grade clients |
+| [`05_error_handling.py`](./examples/05_error_handling.py) | Handle every failure mode | Mixed | Production clients |
 | [`06_batch_queries.py`](./examples/06_batch_queries.py) | Sequential + concurrent batches | Paid | Research, backtests |
 | [`07_custom_config.py`](./examples/07_custom_config.py) | Custom URL / timeout / env vars | Free | Staging, self-hosted |
 | [`08_retry_logic.py`](./examples/08_retry_logic.py) | Exponential backoff on transient failures | Paid | Long-running bots |
 
-See [`examples/README.md`](./examples/README.md) for detailed run notes and
-a per-example funding checklist.
+See [`examples/README.md`](./examples/README.md) for run notes and a
+per-example funding checklist.
 
 ---
 
 ## Common use cases
 
 - **Trading firms & desks** — enrich signal pipelines with on-demand
-  commentary. You pay only for the calls your strategy actually makes —
-  no monthly floor, no seat licenses.
+  commentary. You pay only for the calls your strategy makes — no monthly
+  floor, no seat licenses.
 - **Quant & research teams** — sweep a symbol universe with
   `06_batch_queries.py`; total cost is exactly `$1 × prompts`.
 - **Agent builders** — drop `NeurobroClient` into a LangChain tool, a
   custom agent loop, or a crewai worker. The wallet is the API key, so
-  there's nothing to rotate when your agent spins up a new process.
-- **Individual traders** — `03_cli_query.py "what's moving today?"` from
-  the terminal whenever you want a second opinion.
+  there's nothing to rotate when a new agent process spins up.
+- **Individual traders** — `03_cli_query.py "what's moving today?"`
+  from the terminal whenever you want a second opinion.
 
 ---
 
@@ -255,33 +255,33 @@ a per-example funding checklist.
 No. Your wallet is your identity. There's nothing to register.
 
 **Is my private key sent to the server?**
-No. The client signs payments locally with `eth_account`; only a signed
-`X-PAYMENT` header is transmitted. Your key never leaves your machine.
+No. The client signs payments locally; only a signed `X-PAYMENT` header
+is transmitted. Your key never leaves your machine.
 
 **What happens if my wallet runs out of USDC mid-call?**
 The server returns `402` and the client raises `httpx.HTTPStatusError`.
 Top up and retry — no partial charge, no lost funds.
 
 **Can I use a testnet?**
-The production API runs on Base mainnet today. If you need a sandbox for a
+The production API runs on Base mainnet. If you need a sandbox for a
 specific integration, email us.
 
 **What model is behind it?**
-A frontier LLM, augmented with crypto-specific tooling. The `model` field in
-every response tells you exactly which model served your request.
+A frontier LLM augmented with crypto-specific tooling. The `model` field
+on every response tells you which model served your request.
 
 **How fast are responses?**
-Typically a few seconds. The client's default timeout is 60s; raise it in
-`07_custom_config.py` if you're on a slow link.
+Typically a few seconds. The client's default timeout is 60s; raise it
+in `07_custom_config.py` if you're on a slow link.
 
 **Can I use this from Node, Go, Rust?**
-Yes — x402 is protocol-level, not language-specific. This repo is Python,
-but any x402 client library will work. See the
+Yes — x402 is protocol-level. This repo is Python, but any x402 client
+library will work. See the
 [x402 docs](https://docs.cdp.coinbase.com/x402/quickstart-for-buyers) for
 clients in other languages.
 
 **Is the API rate-limited?**
-There is no per-key tier (there are no keys). Abuse protection exists at
+There's no per-key tier (there are no keys). Abuse protection exists at
 the network layer, but normal usage — including batch runs — is fine.
 
 ---
@@ -294,8 +294,8 @@ Stuck, hit a bug, or want a feature?
 - **Direct support** → [support@neurobro.ai](mailto:support@neurobro.ai)
 - **Chat** → Telegram [@neurobro_support](https://t.me/neurobro_support)
 
-When reporting an issue with a specific query, please include the
-`request_id` the server returned — it makes debugging ~10× faster.
+When reporting an issue with a specific query, include the `request_id`
+the server returned — it makes debugging much faster.
 
 ---
 

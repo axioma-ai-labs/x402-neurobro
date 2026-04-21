@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Batch Queries — run multiple queries sequentially or concurrently.
+Batch queries — run many questions sequentially or in parallel.
 
 Each prompt costs $1 USDC. Three prompts = $3 USDC total.
-Switch to `concurrent=True` to fire all queries in parallel.
+Pass concurrent=True to fire them in parallel instead of one after another.
 
-Prereqs:
-    WALLET_PRIVATE_KEY in .env, wallet funded with enough USDC
-    to cover every prompt in the batch.
+Requires WALLET_PRIVATE_KEY in .env and enough USDC on Base mainnet
+to cover every prompt in the batch.
 
 Usage:
     python 06_batch_queries.py
@@ -22,8 +21,6 @@ from neurobro_client import NeurobroClient, QueryResult
 
 @dataclass
 class BatchResult:
-    """Result of a batch query."""
-
     prompt: str
     result: QueryResult | None
     error: str | None
@@ -34,17 +31,7 @@ async def run_batch(
     prompts: list[str],
     concurrent: bool = False,
 ) -> list[BatchResult]:
-    """
-    Run multiple queries.
-
-    Args:
-        client: Initialized NeurobroClient.
-        prompts: List of prompts to query.
-        concurrent: If True, fire all queries in parallel.
-
-    Returns:
-        List of BatchResult with results or errors.
-    """
+    """Run `prompts` against the API, sequentially or in parallel."""
     results: list[BatchResult] = []
 
     if concurrent:
@@ -83,8 +70,6 @@ async def main() -> None:
         "What is Solana in one sentence?",
     ]
 
-    # Sequential: one query after another. Safer, cheaper to reason about.
-    # To run all three in parallel instead, swap to: concurrent=True.
     print("\n[Sequential Queries]")
     print("-" * 40)
 
@@ -107,10 +92,9 @@ if __name__ == "__main__":
     asyncio.run(main())
 
 
-# ---------------------------------------------------------------------------
-# Sample output (illustrative — real responses will vary)
-# ---------------------------------------------------------------------------
-# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# Example output:
+#
+# Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
 # ============================================================
 #
 # [Sequential Queries]
@@ -121,8 +105,8 @@ if __name__ == "__main__":
 #      21 million coins, secured by proof-of-work mining on a public...
 #
 # 2. What is Ethereum in one sentence?
-#    → Ethereum is a programmable blockchain introduced in 2015 whose native
-#      asset ETH powers a global network of smart contracts...
+#    → Ethereum is a programmable blockchain whose native asset ETH powers
+#      a global network of smart contracts, DeFi, and L2 rollups...
 #
 # 3. What is Solana in one sentence?
 #    → Solana is a high-throughput proof-of-stake blockchain designed for

@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-Retry Logic — transparent retries for transient network / server failures.
+Retry logic — transparent retries for transient failures.
 
-Uses exponential backoff on connection errors, timeouts, and 5xx responses.
-Client errors (4xx) are not retried — they signal a real problem.
+Uses exponential backoff on connection errors, timeouts, and 5xx
+responses. 4xx errors are not retried — they signal a real problem.
 
-Prereqs:
-    WALLET_PRIVATE_KEY in .env, wallet funded with USDC on Base mainnet.
+Requires WALLET_PRIVATE_KEY in .env and USDC on Base mainnet.
 
 Usage:
     python 08_retry_logic.py
@@ -29,21 +28,7 @@ async def with_retry(
     base_delay: float = 1.0,
     max_delay: float = 30.0,
 ) -> T:
-    """
-    Execute async function with exponential backoff retry.
-
-    Args:
-        func: Async function to execute.
-        max_attempts: Maximum retry attempts.
-        base_delay: Initial delay between retries (seconds).
-        max_delay: Maximum delay between retries (seconds).
-
-    Returns:
-        Result of the function.
-
-    Raises:
-        Last exception if all retries fail.
-    """
+    """Execute an async function with exponential backoff retry."""
     last_error: Exception | None = None
 
     for attempt in range(1, max_attempts + 1):
@@ -61,7 +46,6 @@ async def with_retry(
             await asyncio.sleep(delay)
 
         except httpx.HTTPStatusError as e:
-            # Retry 5xx only; bubble 4xx immediately so callers can act.
             if e.response.status_code >= 500:
                 last_error = e
                 if attempt == max_attempts:
@@ -82,7 +66,7 @@ async def query_with_retry(
     prompt: str,
     max_attempts: int = 3,
 ) -> QueryResult:
-    """Send query with automatic retry on transient failures."""
+    """Send a query with automatic retry on transient failures."""
     return await with_retry(
         lambda: client.query_async(prompt),
         max_attempts=max_attempts,
@@ -99,7 +83,7 @@ async def main() -> None:
     print(f"Wallet: {client.wallet_address}")
     print("=" * 50)
 
-    prompt = "What is DeFi in one sentence?"
+    prompt = "What's the current alpha on the markets?"
     print(f"\nQuery: {prompt}")
     print("-" * 50)
 
@@ -127,30 +111,28 @@ if __name__ == "__main__":
     asyncio.run(main())
 
 
-# ---------------------------------------------------------------------------
-# Sample output (illustrative — real responses will vary)
-# ---------------------------------------------------------------------------
-# Happy path:
+# Example output:
 #
-# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
 # ==================================================
 #
-# Query: What is DeFi in one sentence?
+# Query: What's the current alpha on the markets?
 # --------------------------------------------------
 #
 # Model: grok-4
 # Request ID: d4e8f1c2-3a7b-4f02-9e51-0b6c84d2ef17
 #
 # Response:
-# DeFi is a set of open, blockchain-native financial services — lending,
-# trading, derivatives — that run on smart contracts without traditional
-# intermediaries.
+# Markets are hot around the Solana and Base ecosystems — memecoin flows
+# and onchain consumer apps are driving most of the retail activity.
+# AI-adjacent tokens and restaking names remain the other two corners
+# of attention. Majors (BTC, ETH) are range-bound, so the alpha is in
+# rotations across these narratives rather than beta exposure.
 #
 # ==================================================
 # Done
 #
-# ---------------------------------------------------------------------------
-# With a transient 503 on the first attempt:
+# Example with a transient 503 on the first attempt:
 #
 #   Attempt 1 failed: HTTP 503
 #   Retrying in 1.0s...

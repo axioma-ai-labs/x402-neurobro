@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-Health Check — verify the Neurobro x402 API is online.
+Health check — verify the API is online.
 
-Free endpoint. No wallet, no USDC, no payment.
-Run this first to confirm connectivity before trying a paid query.
+Free. No wallet, no USDC.
 
 Usage:
     python 01_health_check.py
@@ -17,7 +16,7 @@ def main() -> None:
     print("-" * 40)
 
     try:
-        status = check_health()  # plain GET — no payment involved
+        status = check_health()
         print(f"Status:  {status.status}")
         print(f"Version: {status.version}")
         print(f"Service: {status.service}")
@@ -36,9 +35,8 @@ if __name__ == "__main__":
     main()
 
 
-# ---------------------------------------------------------------------------
-# Sample output
-# ---------------------------------------------------------------------------
+# Example output:
+#
 # Checking Neurobro x402 API...
 # ----------------------------------------
 # Status:  healthy

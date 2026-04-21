@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 """
-Error Handling — handle every failure mode gracefully.
+Error handling — every failure mode, handled gracefully.
 
-Covers:
-    - Unreachable API / timeouts
-    - Missing or malformed private key
-    - Payment and HTTP errors (402, 429, 5xx)
+Covers unreachable API, timeouts, missing or malformed private keys,
+and the common HTTP errors (402, 429, 5xx).
 
-Safe to run without USDC — most scenarios use the free health endpoint
-or surface errors before spending. The final scenario sends a paid query.
+The final scenario sends a paid query; everything before it is free.
 
 Usage:
     python 05_error_handling.py
@@ -25,7 +22,6 @@ def main() -> None:
     print("Error Handling Examples")
     print("=" * 50)
 
-    # 1. Health check with error handling
     print("\n[1] Health check with error handling")
     print("-" * 30)
 
@@ -39,22 +35,16 @@ def main() -> None:
         print("Error: Request timed out")
     except httpx.HTTPStatusError as e:
         print(f"Error: HTTP {e.response.status_code}")
-    # Sample: API is healthy
 
-    # 2. Client initialization errors
     print("\n[2] Missing private key")
     print("-" * 30)
 
     try:
-        # Forces a ValueError when WALLET_PRIVATE_KEY is not set.
         client = NeurobroClient(private_key=None)
         print(f"Client initialized: {client.wallet_address}")
     except ValueError as e:
         print(f"Expected error: {e}")
-    # Sample: Expected error: Private key required. Pass private_key argument
-    #         or set WALLET_PRIVATE_KEY env var.
 
-    # 3. Invalid private key
     print("\n[3] Invalid private key format")
     print("-" * 30)
 
@@ -62,9 +52,7 @@ def main() -> None:
         client = NeurobroClient(private_key="not-a-valid-key")
     except Exception as e:
         print(f"Expected error: {type(e).__name__}")
-    # Sample: Expected error: ValueError
 
-    # 4. Query with full error handling
     print("\n[4] Query with full error handling")
     print("-" * 30)
 
@@ -103,9 +91,6 @@ def main() -> None:
     except Exception as e:
         print(f"Unexpected error: {type(e).__name__}: {e}")
         sys.exit(1)
-    # Sample (success path):
-    #   Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
-    #   Success: Bitcoin (BTC) is a decentralized digital currency launched...
 
     print("\n" + "=" * 50)
     print("Error handling complete")
@@ -115,9 +100,8 @@ if __name__ == "__main__":
     main()
 
 
-# ---------------------------------------------------------------------------
-# Sample output (illustrative — real responses will vary)
-# ---------------------------------------------------------------------------
+# Example output:
+#
 # Error Handling Examples
 # ==================================================
 #
@@ -136,7 +120,7 @@ if __name__ == "__main__":
 #
 # [4] Query with full error handling
 # ------------------------------
-# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
 # Success: Bitcoin (BTC) is a decentralized digital currency launched in...
 #
 # ==================================================

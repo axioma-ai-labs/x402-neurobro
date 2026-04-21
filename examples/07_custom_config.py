@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Custom Configuration — point the client at a different URL or timeout.
+Custom configuration — point the client at a different URL or timeout.
 
-Useful for staging deployments, self-hosted instances, or slow networks.
-No payment is made; only the free health endpoint is hit.
+Useful for staging, self-hosted instances, or slow networks.
+Only the free health endpoint is hit — no payment is made.
 
 Usage:
     python 07_custom_config.py
@@ -24,24 +24,21 @@ def main() -> None:
     print("Custom Configuration Examples")
     print("=" * 50)
 
-    # Defaults
     print("\n[1] Default configuration")
     print("-" * 30)
     print(f"Base URL: {API_BASE_URL}")
     print(f"Timeout:  {DEFAULT_TIMEOUT}s")
 
-    # Custom timeout for slow connections
     print("\n[2] Custom timeout")
     print("-" * 30)
 
     try:
-        client = NeurobroClient(timeout=120.0)  # 2 minutes
+        client = NeurobroClient(timeout=120.0)
         print(f"Wallet: {client.wallet_address}")
         print("Timeout: 120s (for slow connections)")
     except ValueError as e:
         print(f"Setup error: {e}")
 
-    # Environment-based configuration
     print("\n[3] Environment-based config")
     print("-" * 30)
 
@@ -53,7 +50,6 @@ def main() -> None:
     print(f"API URL:     {base_url}")
     print(f"Timeout:     {timeout}s")
 
-    # Probe the configured URL (free endpoint)
     print("\n[4] Test configured endpoint")
     print("-" * 30)
 
@@ -74,9 +70,8 @@ if __name__ == "__main__":
     main()
 
 
-# ---------------------------------------------------------------------------
-# Sample output
-# ---------------------------------------------------------------------------
+# Example output:
+#
 # Custom Configuration Examples
 # ==================================================
 #
@@ -87,7 +82,7 @@ if __name__ == "__main__":
 #
 # [2] Custom timeout
 # ------------------------------
-# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
 # Timeout: 120s (for slow connections)
 #
 # [3] Environment-based config

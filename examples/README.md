@@ -3,8 +3,8 @@
 Runnable Python examples for the Neurobro x402 API. Start here to go from
 an empty folder to a working paid query in a few minutes.
 
-> For the full project overview, pricing, and the x402 protocol walkthrough,
-> see the [top-level README](../README.md).
+> For the full overview, pricing, and protocol walkthrough, see the
+> [top-level README](../README.md).
 
 ---
 
@@ -23,8 +23,8 @@ cp .env.example .env
 - An EVM wallet with **USDC on Base mainnet** for any paid example
 - No account, no API key
 
-New to funding a wallet on Base? See the
-[Get started](../README.md#get-started-in-5-minutes) section in the top README.
+New to funding a wallet on Base? See
+[Get started](../README.md#get-started-in-5-minutes) in the top README.
 
 ---
 
@@ -36,13 +36,13 @@ New to funding a wallet on Base? See the
 | 02 | `02_simple_query.py` | Smallest working paid integration | Paid | $1 USDC |
 | 03 | `03_cli_query.py` | Ask anything from the terminal | Paid | $1 USDC |
 | 04 | `04_async_usage.py` | Full async workflow for agents / FastAPI | Paid | $1 USDC |
-| 05 | `05_error_handling.py` | Every failure mode, with sample error text | Mixed | ~$1 USDC |
+| 05 | `05_error_handling.py` | Every failure mode, with clear error text | Mixed | ~$1 USDC |
 | 06 | `06_batch_queries.py` | Sequential + concurrent batches | Paid | $3 USDC |
 | 07 | `07_custom_config.py` | Custom URL, timeout, env vars | Free | $0 |
 | 08 | `08_retry_logic.py` | Exponential backoff on transient failures | Paid | $1 USDC |
 
-Each example ends with a **Sample output** block showing what you should
-expect to see in your terminal.
+Each file ends with an **example output** block so you see what to expect
+before running it.
 
 ### Quick run
 
@@ -66,9 +66,7 @@ python 03_cli_query.py "What is Ethereum?"
 | 06 | at least $3 (one $1 payment per prompt) |
 | All eight | $6–$7 to be safe |
 
-A tiny amount of ETH on Base is also useful for any future onchain activity,
-but the examples themselves don't require a gas balance — x402 payments are
-handled by the facilitator.
+You don't need ETH on Base — x402 payments are handled by the facilitator.
 
 ---
 
@@ -119,7 +117,7 @@ print(asyncio.run(quick_query("What is Bitcoin?")))
 
 ## Reading the responses
 
-Every call returns a typed dataclass, so IDE autocomplete works out of the box.
+Every call returns a typed dataclass.
 
 ### `HealthStatus`
 
@@ -127,7 +125,7 @@ Every call returns a typed dataclass, so IDE autocomplete works out of the box.
 |-------|------|-------------|
 | `status` | `str` | `"healthy"` when the API is up |
 | `version` | `str` | Service version, e.g. `"1.0.0"` |
-| `service` | `str` | Always `"neurobro-x402"` |
+| `service` | `str` | `"neurobro-x402"` |
 | `is_healthy` | `bool` (property) | Shortcut for `status == "healthy"` |
 
 ### `QueryResult`
@@ -136,7 +134,7 @@ Every call returns a typed dataclass, so IDE autocomplete works out of the box.
 |-------|------|-------------|
 | `text` | `str` | The full AI-generated response |
 | `model` | `str` | Model that served your request |
-| `request_id` | `str` | Unique identifier — include in any support ticket |
+| `request_id` | `str` | Unique identifier — include it in any support ticket |
 
 ---
 
@@ -146,15 +144,15 @@ Every call returns a typed dataclass, so IDE autocomplete works out of the box.
 Add `WALLET_PRIVATE_KEY=0x...` to `.env` or export it in your shell.
 
 **Payment fails after the 402 step**
-Your wallet needs USDC on Base mainnet. Bridge in or buy on a Base-supported
-exchange.
+Your wallet needs USDC on Base mainnet. Bridge in or buy on a
+Base-supported exchange.
 
 **Connection error / timeout**
 Run `python 01_health_check.py` first. If that fails, check your network.
 If only paid queries fail, try `07_custom_config.py` with a longer timeout.
 
 **Something else broken?**
-Include your `request_id` (if you got one) when contacting us:
+Include your `request_id` when contacting us:
 
 - Email: [support@neurobro.ai](mailto:support@neurobro.ai)
 - Telegram: [@neurobro_support](https://t.me/neurobro_support)

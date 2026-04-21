@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-Async Usage — full async workflow for agents, FastAPI, and event loops.
+Async workflow — health check, then one paid query, all async.
 
-Runs a free health check, then one paid query — all on the async client.
+For agents, FastAPI handlers, and existing event loops.
 
-Prereqs:
-    WALLET_PRIVATE_KEY in .env, wallet funded with USDC on Base mainnet.
+Requires WALLET_PRIVATE_KEY in .env and USDC on Base mainnet.
 
 Usage:
     python 04_async_usage.py
@@ -27,7 +26,6 @@ async def main() -> None:
     print(f"Wallet: {client.wallet_address}")
     print("=" * 50)
 
-    # Step 1: Health check (free)
     print("\n[1] Health Check")
     print("-" * 30)
     status = await client.health_async()
@@ -38,15 +36,13 @@ async def main() -> None:
         print("API is not healthy. Exiting.")
         sys.exit(1)
 
-    # Step 2: Paid query
     print("\n[2] Query (paid)")
     print("-" * 30)
 
-    prompt = "Explain DeFi in one paragraph."
+    prompt = "What are the top crypto narratives driving the market right now?"
     print(f"Prompt: {prompt}\n")
 
     try:
-        # Pays $1 USDC via x402; awaits the full response.
         result = await client.query_async(prompt)
         print(f"Model: {result.model}")
         print(f"Request ID: {result.request_id}")
@@ -65,10 +61,9 @@ if __name__ == "__main__":
     asyncio.run(main())
 
 
-# ---------------------------------------------------------------------------
-# Sample output (illustrative — real responses will vary)
-# ---------------------------------------------------------------------------
-# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# Example output:
+#
+# Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
 # ==================================================
 #
 # [1] Health Check
@@ -78,17 +73,18 @@ if __name__ == "__main__":
 #
 # [2] Query (paid)
 # ------------------------------
-# Prompt: Explain DeFi in one paragraph.
+# Prompt: What are the top crypto narratives driving the market right now?
 #
 # Model: grok-4
 # Request ID: 2a7c1e45-6b9f-4d11-8c3d-4e90fd2b1a08
 #
 # Response:
-# DeFi ("decentralized finance") is a set of blockchain-based financial
-# services — lending, trading, derivatives, yield — that run on public
-# smart-contract platforms without traditional intermediaries. Protocols
-# like Aave, Uniswap, and MakerDAO replace banks and exchanges with
-# open, composable code, letting anyone with a wallet interact directly.
+# Three narratives are pulling flows this cycle: (1) Solana and Base
+# ecosystems absorbing retail activity with cheap, fast execution and a
+# growing memecoin + consumer-app flywheel; (2) AI-adjacent tokens
+# riding the agentic-infrastructure wave; and (3) real-world assets
+# (RWAs) — tokenized treasuries and credit — attracting institutional
+# desks looking for onchain yield.
 #
 # ==================================================
 # Done.
