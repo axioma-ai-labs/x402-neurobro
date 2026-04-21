@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """
-Batch Queries - Send multiple queries efficiently.
+Batch Queries — run multiple queries sequentially or concurrently.
 
-Demonstrates:
-    - Sequential queries
-    - Concurrent queries with asyncio
-    - Result aggregation
+Each prompt costs $1 USDC. Three prompts = $3 USDC total.
+Switch to `concurrent=True` to fire all queries in parallel.
 
-Requires:
-    - WALLET_PRIVATE_KEY in .env
-    - Sufficient USDC for all queries
+Prereqs:
+    WALLET_PRIVATE_KEY in .env, wallet funded with enough USDC
+    to cover every prompt in the batch.
 
 Usage:
     python 06_batch_queries.py
@@ -42,7 +40,7 @@ async def run_batch(
     Args:
         client: Initialized NeurobroClient.
         prompts: List of prompts to query.
-        concurrent: If True, run all queries concurrently.
+        concurrent: If True, fire all queries in parallel.
 
     Returns:
         List of BatchResult with results or errors.
@@ -50,7 +48,6 @@ async def run_batch(
     results: list[BatchResult] = []
 
     if concurrent:
-        # Run all queries at once
         tasks = [client.query_async(p) for p in prompts]
         responses = await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -60,7 +57,6 @@ async def run_batch(
             else:
                 results.append(BatchResult(prompt, response, None))
     else:
-        # Run queries one at a time
         for prompt in prompts:
             try:
                 result = await client.query_async(prompt)
@@ -81,14 +77,14 @@ async def main() -> None:
     print(f"Wallet: {client.wallet_address}")
     print("=" * 60)
 
-    # Define queries
     prompts = [
         "What is Bitcoin in one sentence?",
         "What is Ethereum in one sentence?",
         "What is Solana in one sentence?",
     ]
 
-    # Sequential execution
+    # Sequential: one query after another. Safer, cheaper to reason about.
+    # To run all three in parallel instead, swap to: concurrent=True.
     print("\n[Sequential Queries]")
     print("-" * 40)
 
@@ -97,13 +93,11 @@ async def main() -> None:
     for i, batch in enumerate(results, 1):
         print(f"\n{i}. {batch.prompt}")
         if batch.result:
-            # Show first 150 chars of response
             text = batch.result.text[:150].replace("\n", " ")
             print(f"   → {text}...")
         else:
             print(f"   → Error: {batch.error}")
 
-    # Summary
     print("\n" + "=" * 60)
     success = sum(1 for r in results if r.result)
     print(f"Completed: {success}/{len(prompts)} queries")
@@ -111,3 +105,28 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+# ---------------------------------------------------------------------------
+# Sample output (illustrative — real responses will vary)
+# ---------------------------------------------------------------------------
+# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# ============================================================
+#
+# [Sequential Queries]
+# ----------------------------------------
+#
+# 1. What is Bitcoin in one sentence?
+#    → Bitcoin is a decentralized digital currency with a fixed supply of
+#      21 million coins, secured by proof-of-work mining on a public...
+#
+# 2. What is Ethereum in one sentence?
+#    → Ethereum is a programmable blockchain introduced in 2015 whose native
+#      asset ETH powers a global network of smart contracts...
+#
+# 3. What is Solana in one sentence?
+#    → Solana is a high-throughput proof-of-stake blockchain designed for
+#      low-latency applications, using a Proof-of-History clock to...
+#
+# ============================================================
+# Completed: 3/3 queries

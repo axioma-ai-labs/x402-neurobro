@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-CLI Query - Ask questions from the command line.
+CLI Query — ask the Neurobro x402 API a question from your terminal.
 
-Requires:
-    - WALLET_PRIVATE_KEY in .env or environment
-    - USDC balance on Base mainnet
+One-liner interface. Pays $1 USDC per call, prints the answer.
+
+Prereqs:
+    WALLET_PRIVATE_KEY in .env, wallet funded with USDC on Base mainnet.
 
 Usage:
     python 03_cli_query.py "Your question here"
@@ -33,6 +34,7 @@ async def main() -> None:
     print("-" * 50)
 
     try:
+        # One-shot: initializes client, pays via x402, returns text.
         response = await quick_query(prompt)
         print(response)
     except ValueError as e:
@@ -45,3 +47,16 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+# ---------------------------------------------------------------------------
+# Sample output (illustrative — real responses will vary)
+# ---------------------------------------------------------------------------
+# $ python 03_cli_query.py "What is Ethereum?"
+# Q: What is Ethereum?
+# --------------------------------------------------
+# Ethereum is a programmable blockchain that launched in 2015 and introduced
+# smart contracts — self-executing code deployed onchain. Its native asset,
+# ETH, is used to pay for transaction fees ("gas"). Ethereum is the largest
+# platform for DeFi, NFTs, and L2 rollups, and has been running on a
+# proof-of-stake consensus since the 2022 Merge.

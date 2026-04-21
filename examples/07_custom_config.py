@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """
-Custom Configuration - Configure client for different environments.
+Custom Configuration — point the client at a different URL or timeout.
 
-Demonstrates:
-    - Custom base URL
-    - Custom timeout
-    - Environment-based configuration
+Useful for staging deployments, self-hosted instances, or slow networks.
+No payment is made; only the free health endpoint is hit.
 
 Usage:
     python 07_custom_config.py
@@ -26,7 +24,7 @@ def main() -> None:
     print("Custom Configuration Examples")
     print("=" * 50)
 
-    # Show defaults
+    # Defaults
     print("\n[1] Default configuration")
     print("-" * 30)
     print(f"Base URL: {API_BASE_URL}")
@@ -47,7 +45,6 @@ def main() -> None:
     print("\n[3] Environment-based config")
     print("-" * 30)
 
-    # Read from environment with fallbacks
     env = os.getenv("NEUROBRO_ENV", "production")
     base_url = os.getenv("NEUROBRO_API_URL", API_BASE_URL)
     timeout = float(os.getenv("NEUROBRO_TIMEOUT", str(DEFAULT_TIMEOUT)))
@@ -56,7 +53,7 @@ def main() -> None:
     print(f"API URL:     {base_url}")
     print(f"Timeout:     {timeout}s")
 
-    # Test connection to configured URL
+    # Probe the configured URL (free endpoint)
     print("\n[4] Test configured endpoint")
     print("-" * 30)
 
@@ -75,3 +72,35 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# ---------------------------------------------------------------------------
+# Sample output
+# ---------------------------------------------------------------------------
+# Custom Configuration Examples
+# ==================================================
+#
+# [1] Default configuration
+# ------------------------------
+# Base URL: https://x402.neurobro.ai
+# Timeout:  60.0s
+#
+# [2] Custom timeout
+# ------------------------------
+# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# Timeout: 120s (for slow connections)
+#
+# [3] Environment-based config
+# ------------------------------
+# Environment: production
+# API URL:     https://x402.neurobro.ai
+# Timeout:     60.0s
+#
+# [4] Test configured endpoint
+# ------------------------------
+# Status:  healthy
+# Version: 1.0.0
+# Service: neurobro-x402
+#
+# ==================================================
+# Configuration complete

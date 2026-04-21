@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 """
-Async Usage - Full async workflow example.
+Async Usage — full async workflow for agents, FastAPI, and event loops.
 
-Demonstrates:
-    - Async client initialization
-    - Health check before queries
-    - Multiple async queries
+Runs a free health check, then one paid query — all on the async client.
 
-Requires:
-    - WALLET_PRIVATE_KEY in .env or environment
-    - USDC balance on Base mainnet
+Prereqs:
+    WALLET_PRIVATE_KEY in .env, wallet funded with USDC on Base mainnet.
 
 Usage:
     python 04_async_usage.py
@@ -22,7 +18,6 @@ from neurobro_client import NeurobroClient
 
 
 async def main() -> None:
-    # Initialize client
     try:
         client = NeurobroClient()
     except ValueError as e:
@@ -43,7 +38,7 @@ async def main() -> None:
         print("API is not healthy. Exiting.")
         sys.exit(1)
 
-    # Step 2: Send query (paid)
+    # Step 2: Paid query
     print("\n[2] Query (paid)")
     print("-" * 30)
 
@@ -51,6 +46,7 @@ async def main() -> None:
     print(f"Prompt: {prompt}\n")
 
     try:
+        # Pays $1 USDC via x402; awaits the full response.
         result = await client.query_async(prompt)
         print(f"Model: {result.model}")
         print(f"Request ID: {result.request_id}")
@@ -67,3 +63,32 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+# ---------------------------------------------------------------------------
+# Sample output (illustrative — real responses will vary)
+# ---------------------------------------------------------------------------
+# Wallet: 0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B
+# ==================================================
+#
+# [1] Health Check
+# ------------------------------
+# Status: healthy
+# Version: 1.0.0
+#
+# [2] Query (paid)
+# ------------------------------
+# Prompt: Explain DeFi in one paragraph.
+#
+# Model: grok-4
+# Request ID: 2a7c1e45-6b9f-4d11-8c3d-4e90fd2b1a08
+#
+# Response:
+# DeFi ("decentralized finance") is a set of blockchain-based financial
+# services — lending, trading, derivatives, yield — that run on public
+# smart-contract platforms without traditional intermediaries. Protocols
+# like Aave, Uniswap, and MakerDAO replace banks and exchanges with
+# open, composable code, letting anyone with a wallet interact directly.
+#
+# ==================================================
+# Done.
