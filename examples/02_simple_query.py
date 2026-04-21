@@ -31,8 +31,6 @@ def main() -> None:
 
     try:
         result = client.query(prompt)
-        print(f"Model: {result.model}")
-        print(f"Request ID: {result.request_id}")
         print(f"\nResponse:\n{result.text}")
 
     except Exception as e:
@@ -50,9 +48,6 @@ if __name__ == "__main__":
 # Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
 # --------------------------------------------------
 # Query: What is Bitcoin? Give a brief explanation.
-#
-# Model: grok-4
-# Request ID: 8f3c2a91-2e04-4b6d-9f1c-7c0d6b3e8d21
 #
 # Response:
 # Bitcoin (BTC) is a decentralized digital currency launched in 2009 by the

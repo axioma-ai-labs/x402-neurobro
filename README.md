@@ -69,7 +69,7 @@ for an API key, you pay per request with USDC.
 │ Client  │ ───────────────────────────────► │ Neurobro x402  │
 └─────────┘                                  └────────────────┘
      ▲                                              │
-     │ ◄──── 200 OK { response, model, request_id } ┘
+     │ ◄──── 200 OK with the AI response ───────────┘
 ```
 
 1. Client sends a request with no payment.
@@ -184,8 +184,6 @@ print(status.is_healthy)
 # Paid — handles the 402 → sign → retry flow automatically
 result = client.query("Analyze ETH price action this week")
 print(result.text)
-print(result.model)
-print(result.request_id)
 ```
 
 ### Async

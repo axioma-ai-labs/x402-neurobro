@@ -44,8 +44,6 @@ async def main() -> None:
 
     try:
         result = await client.query_async(prompt)
-        print(f"Model: {result.model}")
-        print(f"Request ID: {result.request_id}")
         print(f"\nResponse:\n{result.text}")
 
     except Exception as e:
@@ -74,9 +72,6 @@ if __name__ == "__main__":
 # [2] Query (paid)
 # ------------------------------
 # Prompt: What are the top crypto narratives driving the market right now?
-#
-# Model: grok-4
-# Request ID: 2a7c1e45-6b9f-4d11-8c3d-4e90fd2b1a08
 #
 # Response:
 # Three narratives are pulling flows this cycle: (1) Solana and Base

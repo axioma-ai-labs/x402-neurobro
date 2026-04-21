@@ -89,8 +89,6 @@ async def main() -> None:
 
     try:
         result = await query_with_retry(client, prompt, max_attempts=3)
-        print(f"\nModel: {result.model}")
-        print(f"Request ID: {result.request_id}")
         print(f"\nResponse:\n{result.text}")
 
     except httpx.HTTPStatusError as e:
@@ -118,9 +116,6 @@ if __name__ == "__main__":
 #
 # Query: What's the current alpha on the markets?
 # --------------------------------------------------
-#
-# Model: grok-4
-# Request ID: d4e8f1c2-3a7b-4f02-9e51-0b6c84d2ef17
 #
 # Response:
 # Markets are hot around the Solana and Base ecosystems — memecoin flows
