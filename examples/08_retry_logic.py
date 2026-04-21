@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 """
-Retry Logic - Handle transient failures with retries.
+Retry logic — transparent retries for transient failures.
 
-Demonstrates:
-    - Exponential backoff
-    - Configurable retry attempts
-    - Handling transient errors
+Uses exponential backoff on connection errors, timeouts, and 5xx
+responses. 4xx errors are not retried — they signal a real problem.
 
-Requires:
-    - WALLET_PRIVATE_KEY in .env
-    - USDC balance on Base mainnet
+Requires WALLET_PRIVATE_KEY in .env and USDC on Base mainnet.
 
 Usage:
     python 08_retry_logic.py
@@ -32,21 +28,7 @@ async def with_retry(
     base_delay: float = 1.0,
     max_delay: float = 30.0,
 ) -> T:
-    """
-    Execute async function with exponential backoff retry.
-
-    Args:
-        func: Async function to execute.
-        max_attempts: Maximum retry attempts.
-        base_delay: Initial delay between retries (seconds).
-        max_delay: Maximum delay between retries (seconds).
-
-    Returns:
-        Result of the function.
-
-    Raises:
-        Last exception if all retries fail.
-    """
+    """Execute an async function with exponential backoff retry."""
     last_error: Exception | None = None
 
     for attempt in range(1, max_attempts + 1):
@@ -54,7 +36,6 @@ async def with_retry(
             return await func()
 
         except (httpx.ConnectError, httpx.TimeoutException) as e:
-            # Retry on network errors
             last_error = e
             if attempt == max_attempts:
                 break
@@ -65,7 +46,6 @@ async def with_retry(
             await asyncio.sleep(delay)
 
         except httpx.HTTPStatusError as e:
-            # Only retry on server errors (5xx)
             if e.response.status_code >= 500:
                 last_error = e
                 if attempt == max_attempts:
@@ -76,7 +56,6 @@ async def with_retry(
                 print(f"  Retrying in {delay:.1f}s...")
                 await asyncio.sleep(delay)
             else:
-                # Don't retry client errors (4xx)
                 raise
 
     raise last_error  # type: ignore
@@ -87,7 +66,7 @@ async def query_with_retry(
     prompt: str,
     max_attempts: int = 3,
 ) -> QueryResult:
-    """Send query with automatic retry on transient failures."""
+    """Send a query with automatic retry on transient failures."""
     return await with_retry(
         lambda: client.query_async(prompt),
         max_attempts=max_attempts,
@@ -104,14 +83,12 @@ async def main() -> None:
     print(f"Wallet: {client.wallet_address}")
     print("=" * 50)
 
-    prompt = "What is DeFi in one sentence?"
+    prompt = "What's the current alpha on the markets?"
     print(f"\nQuery: {prompt}")
     print("-" * 50)
 
     try:
         result = await query_with_retry(client, prompt, max_attempts=3)
-        print(f"\nModel: {result.model}")
-        print(f"Request ID: {result.request_id}")
         print(f"\nResponse:\n{result.text}")
 
     except httpx.HTTPStatusError as e:
@@ -130,3 +107,30 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+# Example output:
+#
+# Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
+# ==================================================
+#
+# Query: What's the current alpha on the markets?
+# --------------------------------------------------
+#
+# Response:
+# Markets are hot around the Solana and Base ecosystems — memecoin flows
+# and onchain consumer apps are driving most of the retail activity.
+# AI-adjacent tokens and restaking names remain the other two corners
+# of attention. Majors (BTC, ETH) are range-bound, so the alpha is in
+# rotations across these narratives rather than beta exposure.
+#
+# ==================================================
+# Done
+#
+# Example with a transient 503 on the first attempt:
+#
+#   Attempt 1 failed: HTTP 503
+#   Retrying in 1.0s...
+#   Attempt 2 failed: HTTP 503
+#   Retrying in 2.0s...
+# (succeeds on third attempt)

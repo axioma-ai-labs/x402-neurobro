@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Simple Query - Send a paid query to the API.
+Simple query — the smallest working paid integration.
 
-Requires:
-    - WALLET_PRIVATE_KEY in .env or environment
-    - USDC balance on Base mainnet
+Asks one question, pays $1 USDC, prints the answer.
+
+Requires WALLET_PRIVATE_KEY in .env and USDC on Base mainnet.
 
 Usage:
     python 02_simple_query.py
@@ -31,8 +31,6 @@ def main() -> None:
 
     try:
         result = client.query(prompt)
-        print(f"Model: {result.model}")
-        print(f"Request ID: {result.request_id}")
         print(f"\nResponse:\n{result.text}")
 
     except Exception as e:
@@ -43,3 +41,17 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# Example output:
+#
+# Wallet: 0xA1b2C3d4E5F67890a1b2c3D4e5f6789012345678
+# --------------------------------------------------
+# Query: What is Bitcoin? Give a brief explanation.
+#
+# Response:
+# Bitcoin (BTC) is a decentralized digital currency launched in 2009 by the
+# pseudonymous Satoshi Nakamoto. It runs on a peer-to-peer network secured
+# by proof-of-work mining, with a fixed supply cap of 21 million coins. It
+# is the largest crypto asset by market cap and is widely used as a store
+# of value and settlement layer.

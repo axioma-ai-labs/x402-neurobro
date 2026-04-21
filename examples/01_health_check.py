@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Health Check - Verify the API is online.
+Health check — verify the API is online.
 
-No wallet or payment required.
+Free. No wallet, no USDC.
 
 Usage:
     python 01_health_check.py
@@ -33,3 +33,14 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# Example output:
+#
+# Checking Neurobro x402 API...
+# ----------------------------------------
+# Status:  healthy
+# Version: 1.0.0
+# Service: neurobro-x402
+# ----------------------------------------
+# API is online.

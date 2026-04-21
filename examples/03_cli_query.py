@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """
-CLI Query - Ask questions from the command line.
+CLI query — ask the API a question from your terminal.
 
-Requires:
-    - WALLET_PRIVATE_KEY in .env or environment
-    - USDC balance on Base mainnet
+Requires WALLET_PRIVATE_KEY in .env and USDC on Base mainnet.
 
 Usage:
-    python 03_cli_query.py "Your question here"
+    python 03_cli_query.py "Your question"
 
 Examples:
     python 03_cli_query.py "What is Ethereum?"
@@ -45,3 +43,15 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+# Example output:
+#
+# $ python 03_cli_query.py "What is Ethereum?"
+# Q: What is Ethereum?
+# --------------------------------------------------
+# Ethereum is a programmable blockchain launched in 2015 that introduced
+# smart contracts — self-executing code deployed onchain. Its native asset
+# ETH pays for transaction fees ("gas"). Ethereum hosts the majority of
+# DeFi, NFTs, and L2 rollups, and runs on proof-of-stake consensus since
+# the 2022 Merge.
