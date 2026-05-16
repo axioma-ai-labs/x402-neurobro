@@ -1,7 +1,8 @@
 # Neurobro x402 Cookbook
 
-Python examples for the **Neurobro x402 API** — pay-per-call crypto
-intelligence with automatic USDC micropayments.
+Python examples for the **Neurobro x402 API** — pay-per-call financial
+market intelligence (crypto, stocks, commodities, and more) with
+automatic USDC micropayments.
 
 ![Neurobro Logo][neurobro-img]
 
@@ -9,9 +10,9 @@ intelligence with automatic USDC micropayments.
 
 > **No API keys. No signup. No subscription.**
 > Point a wallet at `https://x402.neurobro.ai`, pay $1 USDC per call, get
-> a crypto-aware answer back. Built for Python devs shipping AI agents,
+> a market-aware answer back. Built for Python devs shipping AI agents,
 > trading firms, hedge funds, quants, and anyone who wants an on-demand
-> crypto research endpoint.
+> financial-market research endpoint.
 
 **Production API:** https://x402.neurobro.ai
 
@@ -20,8 +21,9 @@ intelligence with automatic USDC micropayments.
 ## Meet NeuroAPI — the full platform
 
 x402 is the pay-per-call on-ramp. **[NeuroAPI](https://neuroapi.neurobro.ai)**
-is the whole engine: Neurobro's complete agentic crypto intelligence
-platform, built for teams shipping serious crypto-aware products.
+is the whole engine: Neurobro's complete agentic financial market
+intelligence platform — crypto, stocks, commodities, and more — built
+for teams shipping serious market-aware products.
 
 Three ways to dive in:
 
@@ -60,8 +62,8 @@ If step 4 prints an answer, you're done.
 
 ## What you get
 
-- **On-demand crypto analysis** — markets, tokens, sentiment, onchain
-  context — behind a single `POST /api/v1/query`.
+- **On-demand market analysis** — crypto, stocks, commodities, tickers,
+  sentiment, onchain context — behind a single `POST /api/v1/query`.
 - **Wallet-native auth** — no accounts to provision, no keys to rotate.
   Your wallet *is* the authentication.
 - **Drop-in Python client** — sync, async, batch, and retry helpers with
@@ -285,8 +287,9 @@ The production API runs on Base mainnet. If you need a sandbox for a
 specific integration, email us.
 
 **What model is behind it?**
-A frontier LLM augmented with crypto-specific tooling. The `model` field
-on every response tells you which model served your request.
+A frontier LLM augmented with financial-market tooling across crypto,
+equities, and commodities. The `model` field on every response tells
+you which model served your request.
 
 **How fast are responses?**
 Typically a few seconds. The client's default timeout is 60s; raise it
