@@ -17,18 +17,23 @@ intelligence with automatic USDC micropayments.
 
 ---
 
-## Coming soon: NeuroAPI
+## Meet NeuroAPI — the full platform
 
-The full **NeuroAPI** — Neurobro's complete agentic crypto intelligence
-platform — is launching soon. This cookbook is the x402 on-ramp you can
-build against today. Email
-[support@neurobro.ai](mailto:support@neurobro.ai) for early access or
-release updates.
+x402 is the pay-per-call on-ramp. **[NeuroAPI](https://neuroapi.neurobro.ai)**
+is the whole engine: Neurobro's complete agentic crypto intelligence
+platform, built for teams shipping serious crypto-aware products.
 
-Want to build against the key-based NeuroAPI surface? See the companion
-[NeuroAPI Cookbook](https://github.com/axioma-ai-labs/neuroapi-cookbook) —
-runnable recipes for `/agent/ask`, streaming, retries, and structured
-output.
+Three ways to dive in:
+
+- 🚀 **The API** → **[neuroapi.neurobro.ai](https://neuroapi.neurobro.ai)** —
+  go straight to the platform.
+- 📖 **The docs** → **[neuroapi.neurobro.ai/docs](https://neuroapi.neurobro.ai/docs)** —
+  endpoints, auth, streaming, rate limits, billing.
+- 🍳 **The cookbook** → **[NeuroAPI Cookbook](https://github.com/axioma-ai-labs/neuroapi-cookbook)** —
+  runnable recipes for `/agent/ask`, streaming, retries, and structured output.
+
+Questions or early access? Email
+[api@neurobro.ai](mailto:api@neurobro.ai).
 
 ---
 
@@ -304,7 +309,7 @@ the network layer, but normal usage — including batch runs — is fine.
 Stuck, hit a bug, or want a feature?
 
 - **Bugs & feature requests** → [GitHub Issues](https://github.com/axioma-ai-labs/x402-neurobro/issues)
-- **Direct support** → [support@neurobro.ai](mailto:support@neurobro.ai)
+- **Direct support** → [api@neurobro.ai](mailto:api@neurobro.ai)
 - **Chat** → Telegram [@neurobro_support](https://t.me/neurobro_support)
 
 When reporting an issue with a specific query, include the `request_id`
