@@ -25,6 +25,11 @@ build against today. Email
 [support@neurobro.ai](mailto:support@neurobro.ai) for early access or
 release updates.
 
+Want to build against the key-based NeuroAPI surface? See the companion
+[NeuroAPI Cookbook](https://github.com/axioma-ai-labs/neuroapi-cookbook) —
+runnable recipes for `/agent/ask`, streaming, retries, and structured
+output.
+
 ---
 
 ## TL;DR
@@ -309,6 +314,7 @@ the server returned — it makes debugging much faster.
 
 ## Links
 
+- [NeuroAPI Cookbook](https://github.com/axioma-ai-labs/neuroapi-cookbook)
 - [x402 protocol](https://x402.org)
 - [x402 Python package](https://pypi.org/project/x402/)
 - [Coinbase x402 quickstart for buyers](https://docs.cdp.coinbase.com/x402/quickstart-for-buyers)
