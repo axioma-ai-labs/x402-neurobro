@@ -1,5 +1,12 @@
 # Neurobro x402 — Examples
 
+> [!WARNING]
+> **The Neurobro x402 API is deprecated and shuts down on November 30, 2026.**
+> After that date these examples stop working. Move to
+> [NeuroAPI](https://neuroapi.neurobro.ai) and the
+> [NeuroAPI Cookbook](https://github.com/axioma-ai-labs/neuroapi-cookbook).
+> Details: [Migrate to NeuroAPI](../README.md#migrate-to-neuroapi).
+
 Runnable Python examples for the Neurobro x402 API. Start here to go from
 an empty folder to a working paid query in a few minutes.
 

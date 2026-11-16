@@ -1,5 +1,19 @@
 # Neurobro x402 Cookbook
 
+> [!WARNING]
+> **The Neurobro x402 API is deprecated and shuts down on November 30, 2026.**
+>
+> - After that date `https://x402.neurobro.ai` stops accepting requests,
+>   and the examples in this repository stop working.
+> - Do not start new integrations on x402.
+> - x402 has no accounts and no prepaid balances, so there is nothing to
+>   withdraw. Each call was paid for on its own.
+> - Move to **[NeuroAPI](https://neuroapi.neurobro.ai)**, Neurobro's public
+>   API. See [Migrate to NeuroAPI](#migrate-to-neuroapi).
+> - Questions: [api@neurobro.ai](mailto:api@neurobro.ai).
+>
+> This repository will be archived after the shutdown.
+
 Python examples for the **Neurobro x402 API** — pay-per-call financial
 market intelligence (crypto, stocks, commodities, and more) with
 automatic USDC micropayments.
@@ -18,24 +32,38 @@ automatic USDC micropayments.
 
 ---
 
-## Meet NeuroAPI — the full platform
+## Migrate to NeuroAPI
 
-x402 is the pay-per-call on-ramp. **[NeuroAPI](https://neuroapi.neurobro.ai)**
-is the whole engine: Neurobro's complete agentic financial market
-intelligence platform — crypto, stocks, commodities, and more — built
-for teams shipping serious market-aware products.
+**[NeuroAPI](https://neuroapi.neurobro.ai)** is Neurobro's public API for
+financial market intelligence: crypto, stocks, commodities, and more. It
+replaces x402. The request is the same idea (send a `prompt`, get an
+answer back). What changes is how you authenticate and pay.
 
-Three ways to dive in:
+| | x402 (until November 30, 2026) | NeuroAPI |
+|---|---|---|
+| Base URL | `https://x402.neurobro.ai` | `https://api.neurobro.ai/api/v1` |
+| Ask the agent | `POST /api/v1/query` | `POST /agent/ask` |
+| Health check | `GET /api/v1/health` | `GET /health` |
+| Authentication | Wallet signature in `X-PAYMENT` | `X-API-Key` header |
+| Billing | $1 USDC per call, on Base | Plan-based, metered in `usage.cost_units` |
 
-- 🚀 **The API** → **[neuroapi.neurobro.ai](https://neuroapi.neurobro.ai)** —
-  go straight to the platform.
-- 📖 **The docs** → **[neuroapi.neurobro.ai/docs](https://neuroapi.neurobro.ai/docs)** —
-  endpoints, auth, streaming, rate limits, billing.
-- 🍳 **The cookbook** → **[NeuroAPI Cookbook](https://github.com/axioma-ai-labs/neuroapi-cookbook)** —
-  runnable recipes for `/agent/ask`, streaming, retries, and structured output.
+NeuroAPI also streams answers over Server-Sent Events and is available as
+an MCP tool (`ask_neuroapi`).
 
-Questions or early access? Email
-[api@neurobro.ai](mailto:api@neurobro.ai).
+To move over:
+
+1. Create an API key in the
+   [NeuroAPI dashboard](https://neuroapi.neurobro.ai).
+2. Send your existing `prompt` to `POST /agent/ask` with the key in the
+   `X-API-Key` header. You no longer need a wallet or USDC.
+3. Start from the
+   [NeuroAPI Cookbook](https://github.com/axioma-ai-labs/neuroapi-cookbook):
+   runnable recipes for `/agent/ask`, streaming, retries, and structured
+   output.
+
+Full reference: [neuroapi.neurobro.ai/docs](https://neuroapi.neurobro.ai/docs).
+
+Need help migrating? Email [api@neurobro.ai](mailto:api@neurobro.ai).
 
 ---
 
