@@ -3,6 +3,10 @@ Neurobro x402 API Client.
 
 A minimal Python client for the Neurobro x402 API with automatic USDC payments.
 
+DEPRECATED: the Neurobro x402 API shuts down on December 1, 2026 at
+00:00 UTC. Move to NeuroAPI (https://neuroapi.neurobro.ai). Recipes:
+https://github.com/axioma-ai-labs/neuroapi-cookbook
+
 Installation:
     pip install x402 httpx eth-account python-dotenv
 
@@ -18,7 +22,18 @@ from __future__ import annotations
 
 import asyncio
 import os
+import warnings
 from dataclasses import dataclass
+
+# Emitted before the third-party imports so it shows even if they fail.
+warnings.warn(
+    "The Neurobro x402 API is deprecated and shuts down on "
+    "December 1, 2026 at 00:00 UTC. "
+    "Move to NeuroAPI: https://neuroapi.neurobro.ai "
+    "(recipes: https://github.com/axioma-ai-labs/neuroapi-cookbook).",
+    FutureWarning,
+    stacklevel=2,
+)
 
 import httpx
 from dotenv import load_dotenv
